@@ -1,0 +1,41 @@
+Arguments: 
+  /Users/jacksonzaloumis/.nvm/versions/node/v10.15.3/bin/node /Users/jacksonzaloumis/.asdf/installs/nodejs/10.11.0/.npm/bin/yarn add ypescript @types/node --dev
+
+PATH: 
+  /usr/local/opt/mysql@5.7/bin:/Users/jacksonzaloumis/Library/Android/sdk/platform-tools:/Users/jacksonzaloumis/.nvm/versions/node/v10.15.3/bin:/Users/jacksonzaloumis/.asdf/shims:/Users/jacksonzaloumis/.asdf/shims:/Users/jacksonzaloumis/.asdf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.12.3
+
+Node version: 
+  10.15.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/ypescript: Not found
+      at Request.params.callback [as _callback] (/Users/jacksonzaloumis/.asdf/installs/nodejs/10.11.0/.npm/lib/node_modules/yarn/lib/cli.js:65894:18)
+      at Request.self.callback (/Users/jacksonzaloumis/.asdf/installs/nodejs/10.11.0/.npm/lib/node_modules/yarn/lib/cli.js:129018:22)
+      at Request.emit (events.js:189:13)
+      at Request.<anonymous> (/Users/jacksonzaloumis/.asdf/installs/nodejs/10.11.0/.npm/lib/node_modules/yarn/lib/cli.js:129990:10)
+      at Request.emit (events.js:189:13)
+      at IncomingMessage.<anonymous> (/Users/jacksonzaloumis/.asdf/installs/nodejs/10.11.0/.npm/lib/node_modules/yarn/lib/cli.js:129912:12)
+      at Object.onceWrapper (events.js:277:13)
+      at IncomingMessage.emit (events.js:194:15)
+      at endReadableNT (_stream_readable.js:1125:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "grocery-api",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

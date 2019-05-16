@@ -2,10 +2,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Table of contents
 
-1.  [Getting Started](#getting-started)
-2.  [Development](#development)
+1.  [Frontend](#frontend)
+1.  [Backend](#backend)
 
-# Getting Started
+# Frontend
 
 ## Running the project(Dev Mode) `yarn start`
 
@@ -14,8 +14,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
-
-# Development
 
 ## App structure
 
@@ -58,3 +56,14 @@ To test linting run `yarn lint`
 ## Testing
 
 1.  In console `yarn test`
+
+# Backend
+
+## Running the backend
+
+To run the app on `http://localhost:4000`
+
+1. nav to directory `./grocery-api`
+2. Install dependencies `yarn`
+3. compile `npx tsc`
+4. run dev server `node ./dist/index.js`

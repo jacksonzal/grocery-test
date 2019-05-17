@@ -8,6 +8,7 @@ import { ITEMS_QUERY } from "../../home/graphql";
 import { CREATE_ITEM_MUTATION } from "../graphql";
 
 const initialData = {
+  id: "",
   name: "",
   category: "",
   cost: 0,
@@ -24,7 +25,6 @@ interface Props {
 }
 
 const Add = ({ createItemMutation }: Props) => {
-  const [formData, setFormData] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -38,7 +38,6 @@ const Add = ({ createItemMutation }: Props) => {
         .then(() => {
           setLoading(false);
           setSuccess(true);
-          setFormData(initialData);
         })
         .catch((error) => {
           setLoading(false);
@@ -52,7 +51,13 @@ const Add = ({ createItemMutation }: Props) => {
   return (
     <main className="add mt-3">
       <h1 className="text-center">Add an Item</h1>
-      {loading ? <Loading /> : <ItemForm submitForm={submitForm} initialData={initialData} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="add__form container mt-5">
+          <ItemForm submitForm={submitForm} initialData={initialData} />
+        </div>
+      )}
       {success ? <span className="text-success">Successfully Created Item!</span> : null}
     </main>
   );

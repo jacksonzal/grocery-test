@@ -3,18 +3,19 @@ import React, { useState } from "react";
 import { validateItem } from "../util/validators";
 
 interface ItemFormData {
-  id?: string;
+  id: string;
   name: string;
   category: string;
   cost: number;
 }
 
-interface Props {
-  initialData: { id?: string; name: string; category: string; cost: number };
+export interface Props {
+  initialData: { id: string; name: string; category: string; cost: number };
   submitForm: (itemFormData: ItemFormData) => void;
+  cancel?: () => void;
 }
 
-const ItemForm = ({ submitForm, initialData }: Props) => {
+const ItemForm = ({ submitForm, initialData, cancel }: Props) => {
   const [formData, setFormData] = useState(initialData);
 
   const submitFormClick = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,9 +33,9 @@ const ItemForm = ({ submitForm, initialData }: Props) => {
   const disabled = !validateItem(formData.name, formData.cost, formData.category);
 
   return (
-    <form className="add__form container mt-5" onSubmit={submitFormClick}>
+    <form className="" onSubmit={submitFormClick}>
       <div className="form-group">
-        <label htmlFor="name">Example label</label>
+        <label htmlFor="name">Name</label>
         <input
           type="text"
           className="form-control"
@@ -69,6 +70,11 @@ const ItemForm = ({ submitForm, initialData }: Props) => {
           onChange={onChange}
         />
       </div>
+      {cancel ? (
+        <button type="button" className="btn btn-secondary mr-2" onClick={cancel}>
+          Cancel
+        </button>
+      ) : null}
       <button type="submit" className="btn btn-primary" disabled={disabled}>
         Save
       </button>

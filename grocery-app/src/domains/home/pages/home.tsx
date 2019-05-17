@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
 import { compose, graphql, Query } from "react-apollo";
-import { DELETE_ITEM_MUTATION, ITEMS_QUERY, ItemsQueryResponse } from "../graphql";
+import { DELETE_ITEM_MUTATION, EDIT_ITEM_MUTATION, ITEMS_QUERY, ItemsQueryResponse } from "../graphql";
 
+import { ApolloError } from "apollo-client";
 import { Loading } from "../../../components";
+import { Item } from "../../../types";
 import { GroceryItem } from "../components";
 
 interface Props {
@@ -14,9 +16,16 @@ interface Props {
     variables: { id: string };
     refetchQueries: [{ query: Query }];
   }) => Promise<any>;
+  editItemMutation: ({
+    variables,
+    refetchQueries,
+  }: {
+    variables: { id: string; name: string; category: string; cost: number };
+    refetchQueries: [{ query: Query }];
+  }) => Promise<any>;
 }
 
-const Home = ({ deleteItemMutation }: Props) => {
+const Home = ({ deleteItemMutation, editItemMutation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [searchString, setSearch] = useState("");
 
@@ -26,8 +35,21 @@ const Home = ({ deleteItemMutation }: Props) => {
       .then(() => {
         setLoading(false);
       })
-      .catch((error) => {
+      .catch((error: ApolloError) => {
         setLoading(false);
+        // TO DO: ERROR HANDLING
+      });
+  };
+
+  const editItem = (item: Item) => {
+    setLoading(true);
+    editItemMutation({ variables: item, refetchQueries: [{ query: ITEMS_QUERY }] })
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error: ApolloError) => {
+        setLoading(false);
+        console.error(error);
         // TO DO: ERROR HANDLING
       });
   };
@@ -71,7 +93,7 @@ const Home = ({ deleteItemMutation }: Props) => {
                   />
                 </div>
                 {filteredItems.map((item, index) => (
-                  <GroceryItem key={index} deleteItem={deleteItem} {...item} />
+                  <GroceryItem key={index} deleteItem={deleteItem} item={item} editItem={editItem} />
                 ))}
               </div>
             );
@@ -84,4 +106,7 @@ const Home = ({ deleteItemMutation }: Props) => {
   );
 };
 
-export default compose(graphql(DELETE_ITEM_MUTATION, { name: "deleteItemMutation" }))(Home);
+export default compose(
+  graphql(DELETE_ITEM_MUTATION, { name: "deleteItemMutation" }),
+  graphql(EDIT_ITEM_MUTATION, { name: "editItemMutation" }),
+)(Home);

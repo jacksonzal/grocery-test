@@ -27,3 +27,14 @@ export const DELETE_ITEM_MUTATION = gql`
     }
   }
 `;
+
+export const EDIT_ITEM_MUTATION = gql`
+  mutation updateItem($id: String!, $name: String, $cost: Float, $category: String) {
+    updateItem(id: $id, name: $name, cost: $cost, category: $category) {
+      id
+      name
+      cost
+      category
+    }
+  }
+`;

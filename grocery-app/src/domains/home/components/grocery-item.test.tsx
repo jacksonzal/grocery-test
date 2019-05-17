@@ -8,17 +8,19 @@ import { render } from "../../../config/test-renderer";
 
 import { Item } from "../../../types";
 
-describe("Home", () => {
+describe("Grocery Item", () => {
   let props: Props;
   let item: Item;
   beforeEach(() => {
     item = { id: "0", name: "Boonanas", cost: 2, category: "Fruit" };
-    props = { ...item, deleteItem: jest.fn() };
+    props = { item, deleteItem: jest.fn(), editItem: jest.fn() };
   });
-  it("Renders", () => {
-    const { container } = render(<GroceryItem {...props} />);
+  it("Renders Item Data", () => {
+    const { getByText } = render(<GroceryItem {...props} />);
 
-    expect(container).toBeDefined();
+    expect(getByText("Boonanas")).toBeTruthy();
+    expect(getByText("$2")).toBeTruthy();
+    expect(getByText("Fruit")).toBeTruthy();
   });
 
   it("Calls delete function on click", () => {
@@ -30,5 +32,15 @@ describe("Home", () => {
 
     fireEvent.click(deleteElement);
     expect(props.deleteItem).toHaveBeenCalled();
+  });
+
+  it("Toggles View on Edit Click", () => {
+    const { getByTitle, getByLabelText, queryByLabelText } = render(<GroceryItem {...props} />);
+
+    expect(queryByLabelText("Name")).toBeNull();
+    const editElement = getByTitle("edit");
+
+    fireEvent.click(editElement);
+    expect(getByLabelText("Name")).toBeTruthy();
   });
 });

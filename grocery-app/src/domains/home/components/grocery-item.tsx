@@ -1,16 +1,25 @@
 import React, { useState } from "react";
+
+import { ItemForm } from "../../../components";
+
 import { Item } from "../../../types";
 
-export type Props = Item & { deleteItem: (id: string) => void };
+export interface Props {
+  item: Item;
+  deleteItem: (id: string) => void;
+  editItem: ({ id, name, category, cost }: { id: string; name: string; category: string; cost: number }) => void;
+}
 
-export default function GroceryItem({ id, name, cost, category, deleteItem }: Props) {
+export default function GroceryItem({ item, deleteItem, editItem }: Props) {
   const [editView, setEditView] = useState(false);
+
+  const { id, name, cost, category } = item;
 
   return (
     <div className="grocery-item p-3 border-bottom d-flex justify-content-between">
       <div className="d-flex align-items-center">
         {editView ? (
-          <div>Edit...</div>
+          <ItemForm submitForm={editItem} initialData={item} cancel={() => setEditView(false)} />
         ) : (
           <>
             <img className="grocery-item__image" alt="Grocery Item" src="https://picsum.photos/75" />

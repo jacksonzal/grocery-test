@@ -33,19 +33,16 @@ _Contains files that configure certain parts of the application e.g. API, Redux 
 
 _All components that are widely used between domains. Like buttons or other UI components_
 
-#### constants
-
-_Constants used across the entire project_
-
 #### domains:
 
 _Domains split the app up in *logical* folders. If a single file becomes to big or has multiple items in it, you can split it up into separate files/folders._
 
-| Folder name(s) |                                                              |
-| -------------- | ------------------------------------------------------------ |
-| components     | Domain specific components                                   |
-| pages          | Domain specific screens                                      |
-| redux          | Redux files related to this domain: actions, reducers, types |
+| Folder name(s) |                            |
+| -------------- | -------------------------- |
+| components     | Domain specific components |
+| pages          | Domain specific screens    |
+
+_Usually Test Folders are under both of these, but for the project test files are next to the component_
 
 #### util
 

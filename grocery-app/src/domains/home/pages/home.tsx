@@ -18,6 +18,7 @@ interface Props {
 
 const Home = ({ deleteItemMutation }: Props) => {
   const [loading, setLoading] = useState(false);
+  const [searchString, setSearch] = useState("");
 
   const deleteItem = (id: string) => {
     setLoading(true);
@@ -30,6 +31,11 @@ const Home = ({ deleteItemMutation }: Props) => {
         // TO DO: ERROR HANDLING
       });
   };
+
+  const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <main className="home">
       <h1 className="mt-3 text-center">Grocery List</h1>
@@ -45,9 +51,26 @@ const Home = ({ deleteItemMutation }: Props) => {
           if (data) {
             const { items } = data;
 
+            let filteredItems = items;
+            if (searchString) {
+              filteredItems = items.filter((i) => i.category.toLowerCase().includes(searchString.toLowerCase()));
+            }
+
             return (
               <div className="home__list container">
-                {items.map((item, index) => (
+                <div className="form-group">
+                  <label htmlFor="cost">Search</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="search"
+                    name="search"
+                    placeholder="Search for item by category"
+                    value={searchString}
+                    onChange={searchChange}
+                  />
+                </div>
+                {filteredItems.map((item, index) => (
                   <GroceryItem key={index} deleteItem={deleteItem} {...item} />
                 ))}
               </div>

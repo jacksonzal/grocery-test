@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Add from "../../add/pages";
+import { Add } from "../../add/pages";
 import { Home } from "../../home/pages";
 
 const ROUTES = [{ component: Home, path: "" }, { component: Add, path: "add" }];

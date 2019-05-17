@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { compose, graphql, Query } from "react-apollo";
 import { DELETE_ITEM_MUTATION, ITEMS_QUERY, ItemsQueryResponse } from "../graphql";
 
+import { Loading } from "../../../components";
 import { GroceryItem } from "../components";
 
 interface Props {
@@ -35,7 +36,7 @@ const Home = ({ deleteItemMutation }: Props) => {
       <Query<ItemsQueryResponse> query={ITEMS_QUERY}>
         {({ loading: queryLoading, error, data }) => {
           if (loading || queryLoading) {
-            return <div>loading...</div>;
+            return <Loading />;
           }
           if (error) {
             return <div>Error</div>;

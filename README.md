@@ -59,6 +59,8 @@ To test linting run `yarn lint`
 
 ## Testing
 
+_Using Jest and react-testing-library_
+
 1.  In console `yarn test`
 
 # Backend
@@ -71,3 +73,9 @@ To run the app on `http://localhost:4000`
 2. Install dependencies `yarn`
 3. compile `npx tsc`
 4. run dev server `node ./dist/index.js`
+
+## Testing
+
+_Did not test the graphql resolvers as I am working under the assumption i will be doing primarily frontend work_
+
+1.  In console `yarn test`

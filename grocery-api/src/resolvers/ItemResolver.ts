@@ -1,6 +1,7 @@
 import { Arg, Query, Mutation, Resolver } from "type-graphql";
 import { items, ItemData } from "../data";
 import Item from "../schemas/Item";
+import { findItemIndex } from "../util/item";
 
 const uuidv1 = require("uuid/v1");
 
@@ -12,19 +13,39 @@ export default class {
   }
 
   @Mutation(returns => Item)
-  updateItem(@Arg("id") id: string): ItemData {
-    const item = items.find(item => {
-      return item.id === id;
-    });
-    if (!item) {
-      throw new Error(`Couldn't find the item with id ${id}`);
-    }
+  updateItem(
+    @Arg("id") id: string,
+    @Arg("name", { nullable: true }) name?: string,
+    @Arg("cost", { nullable: true }) cost?: number,
+    @Arg("category", { nullable: true }) category?: string
+  ): ItemData {
+    const itemIndex = findItemIndex(id);
 
-    return item;
+    const updatedItem = {
+      ...items[itemIndex],
+      name: name ? name : items[itemIndex].name,
+      cost: cost ? cost : items[itemIndex].cost,
+      category: category ? category : items[itemIndex].category
+    };
+
+    // replace item with update one
+    items.splice(itemIndex, 1, updatedItem);
+
+    return updatedItem;
   }
 
   @Mutation(returns => Item)
-  addItem(@Arg("name") name: string, @Arg("cost") cost: number, @Arg("category") category: string): ItemData {
+  deleteItem(@Arg("id") id: string): ItemData {
+    const itemIndex = findItemIndex(id);
+
+    // remove item
+    const deletedItem = items.splice(itemIndex, 1)[0];
+
+    return deletedItem;
+  }
+
+  @Mutation(returns => Item)
+  createItem(@Arg("name") name: string, @Arg("cost") cost: number, @Arg("category") category: string): ItemData {
     const item = {
       id: uuidv1(),
       name,

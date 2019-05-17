@@ -4,8 +4,9 @@
 # -----------------------------------------------
 
 type Mutation {
-  updateItem(id: String!): Project!
-  addItem(category: String!, cost: Float!, name: String!): Project!
+  updateItem(category: String, cost: Float, name: String, id: String!): Project!
+  deleteItem(id: String!): Project!
+  createItem(category: String!, cost: Float!, name: String!): Project!
 }
 
 type Project {

@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-import { Item } from "./types";
+import { Item } from "../../types";
 
 export const ITEMS_QUERY = gql`
   query Items {

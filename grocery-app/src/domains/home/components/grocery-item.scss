@@ -1,0 +1,14 @@
+.grocery-item {
+  &__image {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+  }
+
+  &__icon {
+    color: $gray;
+    &:hover {
+      color: $black;
+    }
+  }
+}

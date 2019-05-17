@@ -6,8 +6,7 @@ import Client from "./config/api";
 
 // APP
 import { BrowserRouter } from "react-router-dom";
-import { NavBar } from "./domains/app/components";
-import Routes from "./domains/app/routes";
+import { NavBar, Routes } from "./domains/app/components";
 
 const App: React.FC = () => {
   return (

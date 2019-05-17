@@ -16,3 +16,14 @@ export const ITEMS_QUERY = gql`
 export interface ItemsQueryResponse {
   items: Item[];
 }
+
+export const DELETE_ITEM_MUTATION = gql`
+  mutation deleteItem($id: String!) {
+    deleteItem(id: $id) {
+      id
+      name
+      cost
+      category
+    }
+  }
+`;

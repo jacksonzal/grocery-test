@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Query } from "react-apollo";
-import { ITEMS_QUERY, ItemsQueryResponse } from "../graphql";
+import { compose, graphql, Query } from "react-apollo";
+import { DELETE_ITEM_MUTATION, ITEMS_QUERY, ItemsQueryResponse } from "../graphql";
 
 import { GroceryItem } from "../components";
 
-export default function Home() {
+interface Props {
+  deleteItemMutation: ({
+    variables,
+    refetchQueries,
+  }: {
+    variables: { id: string };
+    refetchQueries: [{ query: Query }];
+  }) => Promise<any>;
+}
+
+const Home = ({ deleteItemMutation }: Props) => {
+  const [loading, setLoading] = useState(false);
+
+  const deleteItem = (id: string) => {
+    setLoading(true);
+    deleteItemMutation({ variables: { id }, refetchQueries: [{ query: ITEMS_QUERY }] })
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        // TO DO: ERROR HANDLING
+      });
+  };
   return (
     <main className="home">
       <h1 className="mt-3 text-center">Grocery List</h1>
       <Query<ItemsQueryResponse> query={ITEMS_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) {
+        {({ loading: queryLoading, error, data }) => {
+          if (loading || queryLoading) {
             return <div>loading...</div>;
           }
           if (error) {
@@ -24,7 +47,7 @@ export default function Home() {
             return (
               <div className="home__list container">
                 {items.map((item, index) => (
-                  <GroceryItem key={index} {...item} />
+                  <GroceryItem key={index} deleteItem={deleteItem} {...item} />
                 ))}
               </div>
             );
@@ -35,4 +58,6 @@ export default function Home() {
       </Query>
     </main>
   );
-}
+};
+
+export default compose(graphql(DELETE_ITEM_MUTATION, { name: "deleteItemMutation" }))(Home);

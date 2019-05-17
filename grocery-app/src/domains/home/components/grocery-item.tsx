@@ -1,9 +1,9 @@
 import React from "react";
 import { Item } from "../../../types";
 
-type Props = Item;
+export type Props = Item & { deleteItem: (id: string) => void };
 
-export default function GroceryItem({ name, cost, category }: Props) {
+export default function GroceryItem({ id, name, cost, category, deleteItem }: Props) {
   return (
     <div className="grocery-item p-3 border-bottom d-flex justify-content-between">
       <div className="d-flex align-items-center">
@@ -15,8 +15,8 @@ export default function GroceryItem({ name, cost, category }: Props) {
         </div>
       </div>
       <div className="">
-        <button className="grocery-item__icon fa fa-pencil-alt border-0" />
-        <button className="grocery-item__icon fa fa-trash border-0" />
+        <button className="grocery-item__icon fa fa-pencil-alt border-0" title="edit" />
+        <button className="grocery-item__icon fa fa-trash border-0" onClick={() => deleteItem(id)} title="delete" />
       </div>
     </div>
   );

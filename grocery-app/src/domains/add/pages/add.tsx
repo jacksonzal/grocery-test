@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { compose, graphql, Query } from "react-apollo";
 
-import { Loading } from "../../../components";
+import { ItemForm, Loading } from "../../../components";
 import { validateItem } from "../../../util/validators";
 import { ITEMS_QUERY } from "../../home/graphql";
 import { CREATE_ITEM_MUTATION } from "../graphql";
@@ -28,14 +28,13 @@ const Add = ({ createItemMutation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitForm = ({ name, category, cost }: { name: string; category: string; cost: number }) => {
     setSuccess(false);
 
-    if (validateItem(formData.name, formData.cost, formData.category)) {
+    if (validateItem(name, cost, category)) {
       setLoading(true);
 
-      createItemMutation({ variables: formData, refetchQueries: [{ query: ITEMS_QUERY }] })
+      createItemMutation({ variables: { name, category, cost }, refetchQueries: [{ query: ITEMS_QUERY }] })
         .then(() => {
           setLoading(false);
           setSuccess(true);
@@ -50,66 +49,11 @@ const Add = ({ createItemMutation }: Props) => {
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSuccess(false);
-
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.name === "cost" ? parseInt(e.target.value, 10) : e.target.value,
-    });
-  };
-
-  const disabled = !validateItem(formData.name, formData.cost, formData.category);
-
   return (
     <main className="add mt-3">
       <h1 className="text-center">Add an Item</h1>
-      {loading ? (
-        <Loading />
-      ) : (
-        <form className="add__form container mt-5" onSubmit={submitForm}>
-          <div className="form-group">
-            <label htmlFor="name">Example label</label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
-              placeholder="Enter Name"
-              value={formData.name}
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="cost">Cost</label>
-            <input
-              type="number"
-              className="form-control"
-              id="cost"
-              name="cost"
-              placeholder="Enter Cost"
-              value={formData.cost}
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="category">Category</label>
-            <input
-              type="text"
-              className="form-control"
-              id="category"
-              name="category"
-              placeholder="Enter Category"
-              value={formData.category}
-              onChange={onChange}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={disabled}>
-            Save
-          </button>
-          {success ? <span className="text-success">Successfully Added!</span> : null}
-        </form>
-      )}
+      {loading ? <Loading /> : <ItemForm submitForm={submitForm} initialData={initialData} />}
+      {success ? <span className="text-success">Successfully Created Item!</span> : null}
     </main>
   );
 };
